@@ -3,6 +3,7 @@
     color: white;
     display: flex;
     justify-content: center;    
+    position: relative; /* díky tomuto kódu bude pozice absolutního divu headerSearch relativní k tomuto */
 }
 
 .headerContainer{
@@ -41,3 +42,50 @@
     padding: 10px;
     cursor: pointer;
 }
+
+.headerSearch{
+    height: 30px;
+    background-color: white;
+    border: 3px solid #febb02;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 0px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: -25px;
+    width: 100%;
+    max-width: 1024px;
+}
+
+.headerSearchItem{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerIcon{
+    color:lightgray
+}
+
+.headerSearchInput{
+    border: none;
+    outline: none;
+}
+
+.headerSearchText{
+    color: lightgray;
+    cursor: pointer;
+}
+
+.headerSearchText:hover, .headerSearchText:focus {
+    color: #0071c2;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.date{
+    position: absolute;
+    top: 50px;
+}
+
