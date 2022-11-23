@@ -1,8 +1,18 @@
+import {BrowserRouter,Routes,Route} from "react-router-dom";
+import List from './pages/list/List';
+import Home from './pages/home/Home';
+import Hotel from "./pages/hotel/Hotel";
+
 function App() {
   return (
-    <div>
-      Hello world!
-    </div>
+    //TODO: Založit nový projekt na GIT booking -FE a tam to programovat
+    <BrowserRouter>  
+    <Routes>
+      <Route path="/" exact element={<Home/>}/>
+      <Route path="/hotels" exact element={<List/>}/>
+      <Route path="/hotels/:id" exact element={<Hotel/>}/>
+    </Routes> 
+    </BrowserRouter>
   );
 }
 
