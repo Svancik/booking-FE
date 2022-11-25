@@ -17,11 +17,13 @@ import { format } from "date-fns";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import { useNavigate } from "react-router-dom";
 
 /* V kódu níže je krásně využita knihovna pro kalendář - viz dokumentace https://hypeserver.github.io/react-date-range/ */
 
 export const Header = ({ type }) => {
   const [openDate, setOpenDate] = useState(false);
+  const [destination, setDestination] = useState("");
   const [openOptions, setOpenOptions] = useState(false);
 
   const [date, setDate] = useState([
@@ -31,6 +33,8 @@ export const Header = ({ type }) => {
       key: "selection",
     },
   ]);
+
+  const navigate = useNavigate();
 
   const [options, setOptions] = useState({ adult: 1, children: 0, room: 1 });
 
@@ -44,6 +48,10 @@ export const Header = ({ type }) => {
             : options[optionName] - 1,
       };
     });
+  };
+
+  const handleSearch = () => {
+    navigate("/hotels", { state: { destination, date, options } });
   };
 
   return (
@@ -91,6 +99,7 @@ export const Header = ({ type }) => {
                   type="text"
                   placeholder="Where are you going?"
                   className="headerSearchInput"
+                  onChange={(e) => setDestination(e.target.value)}
                 />
               </div>
               <div className="headerSearchItem">
@@ -109,6 +118,7 @@ export const Header = ({ type }) => {
                     moveRangeOnFirstSelection={false}
                     ranges={date}
                     className="date"
+                    minDate={new Date()}
                   />
                 )}
               </div>
@@ -189,7 +199,9 @@ export const Header = ({ type }) => {
                 )}
               </div>
               <div className="headerSearchItem">
-                <button className="headerBtn">Search</button>
+                <button className="headerBtn" onClick={handleSearch}>
+                  Search
+                </button>
               </div>
             </div>{" "}
           </>
