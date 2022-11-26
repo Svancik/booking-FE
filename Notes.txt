@@ -27,3 +27,17 @@ JAK ODSTRANIT JINOU ORIGIN BRANCH Z GIT? (Pokud např. napojíme současný proj
 1) git remote -v                = nám vypíše jaké větve jsou připojené k projektu 
 2) git remote remove origin     = pokud tam bude název "origin" (pravděpodobně ano), tak je potřeba napsat
 3) Nyní můžeme napojit nový projekt dle tutorialu na gitu: (git remote add origin https://github.com/Svancik/booking-FE.git)
+
+
+JAK PŘIŠPENDLIT SERACHBOX.
+
+.listSearch{
+    flex: 1;
+    background-color: #febb02;
+    padding: 10px;
+    border-radius: 10px;
+    /* Pomocí kódu níže nám zůstane searchBar přišpendlený a můžeme scrollovat vyhledané výsledky */
+    position: sticky;
+    height: max-content;
+    top: 10px;
+}

@@ -16,7 +16,9 @@
     background-color: #febb02;
     padding: 10px;
     border-radius: 10px;
-    position: sticky;
+    /* Pomocí kódu níže nám zůstane searchBar přišpendlený a můžeme scrollovat vyhledané výsledky */
+    position:sticky;
+    height: max-content;
     top: 10px;
 }
 

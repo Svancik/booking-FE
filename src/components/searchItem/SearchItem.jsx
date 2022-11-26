@@ -27,12 +27,12 @@ export const SearchItem = () => {
       </div>
       <div className="siDetails">
         <div className="siRating">
-          <span>Excellent</span>
+          <span>Excelent</span>
           <button>8.9</button>
         </div>
         <div className="siDetailTexts">
-          <span className="siPrice">$112</span>
-          <span className="siTaxOp">Includes taxes and fees</span>
+          <span className="siPrice">$123</span>
+          <span className="siTaxOp">Includes taxes and feees</span>
           <button className="siCheckButton">See availability</button>
         </div>
       </div>
