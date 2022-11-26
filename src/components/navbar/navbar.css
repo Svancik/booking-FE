@@ -16,6 +16,14 @@
 
 .logo{
     font-weight: 500;
+    color: lightgray;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.logo:hover{
+    color: darkgray;
 }
 
 .navButton{
@@ -24,4 +32,8 @@
     padding: 5px 10px;
     cursor: pointer;
     color: #003580;
+}
+
+Link{
+    text-decoration: none;
 }
