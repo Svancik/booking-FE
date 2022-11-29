@@ -19,6 +19,7 @@ import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "./../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
 
 /* V kódu níže je krásně využita knihovna pro kalendář - viz dokumentace https://hypeserver.github.io/react-date-range/ */
 
@@ -36,6 +37,7 @@ export const Header = ({ type }) => {
   ]);
 
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   const [options, setOptions] = useState({ adult: 1, children: 0, room: 1 });
 
@@ -95,7 +97,7 @@ export const Header = ({ type }) => {
               Get reward for your travels - unlock instant savings of 10% or
               more with a free Lamabooking account.
             </p>
-            <button className="headerBtn">Sign In / Register</button>
+            {!user && <button className="headerBtn">Sign In / Register</button>}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
