@@ -1,5 +1,5 @@
 import React from "react";
-import "./hotel.css";
+
 import Navbar from "./../../components/navbar/Navbar";
 import { Header } from "../../components/header/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,10 +12,12 @@ import {
 import { MailList } from "./../../components/mailList/MailList";
 import { Footer } from "./../../components/footer/Footer";
 import { useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "./../../hooks/useFetch";
 import { SearchContext } from "./../../context/SearchContext";
-
+import { AuthContext } from "../../context/AuthContext";
+import { Reserve } from "../../components/reserve/Reserve";
+import "./hotel.css";
 // const photos = [
 //   {
 //     src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
@@ -43,8 +45,11 @@ export const Hotel = () => {
   const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const { dates, options } = useContext(SearchContext);
   //console.log("dates:", dates);
@@ -75,6 +80,14 @@ export const Hotel = () => {
       newSlideIndex = slideNumber === 5 ? 0 : slideNumber + 1;
     }
     setSlideNumber(newSlideIndex);
+  };
+
+  const handleClick = () => {
+    if (user) {
+      setOpenModal(true);
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -127,7 +140,7 @@ export const Hotel = () => {
             <div className="hotelImages">
               {/* i = index pole které se prochází pomocí fce .map() */}
               {data.photos?.map((photo, i) => (
-                <div className="hotelImgWrapper">
+                <div className="hotelImgWrapper" key={i}>
                   <img
                     onClick={() => handleOpen(i)}
                     src={photo}
@@ -152,7 +165,7 @@ export const Hotel = () => {
                   <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
                   nights)
                 </h2>
-                <button>Reserve or Book Now!</button>
+                <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
             </div>
           </div>
@@ -160,6 +173,8 @@ export const Hotel = () => {
           <Footer />
         </div>
       )}
+      {/* Modal = vyskočené okno kdy ztmavne pozadí */}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
     </div>
   );
 };
