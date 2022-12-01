@@ -6,8 +6,12 @@ import useFetch from "./../../hooks/useFetch";
 import { useState } from "react";
 import { SearchContext } from "./../../context/SearchContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const Reserve = ({ setOpen, hotelId }) => {
+  const navigate = useNavigate();
+
   const [selectedRooms, setSelectedRooms] = useState([]);
   const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
   const { dates } = useContext(SearchContext);
@@ -36,19 +40,42 @@ export const Reserve = ({ setOpen, hotelId }) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
       allDates.includes(new Date(date).getTime())
     );
-    //true = nalezli jsme nedostupnou místnost, proto níže vracíme negaci !isFound
-    return !isFound
+
+    return !isFound;
   };
 
   console.log(getDatesInRange(dates[0].startDate, dates[0].endDate));
 
-  //tato funkce zablokuje místnosti ve vybraný temrín aby si je nemohl zvolit někdo jiný
-  const handleClick = () => {};
+  //tato funkce zablokuje místnosti ve vybraný temrín aby si je nemohl zvolit někdo jiný - v databázi zablokujeme daná data
+  const handleClick = async () => {
+    try {
+      await Promise.all(
+        selectedRooms.map((roomId) => {
+          const res = axios.put(`/rooms/availability/${roomId}`, {
+            dates: allDates,
+          });
+          return res.data;
+        })
+      );
+      setOpen(false);
+      navigate("/");
+    } catch (err) {}
+  };
   //tato funkce vloží do pole vybrané místnosti
-  const handleSelect = (e) => {
+  const handleSelectt = (e) => {
     const checked = e.target.checked;
     const value = e.target.value;
     // pokud jsme zaškrtli místnost (checkBox) tak hodnota vybraneho checkboxu (e.target.value) se přidá do pole selectedRooms ktere je zazačátku ve state prázdné
+    setSelectedRooms(
+      checked
+        ? [...selectedRooms, value]
+        : selectedRooms.filter((item) => item !== value)
+    );
+  };
+
+  const handleSelect = (e) => {
+    const checked = e.target.checked;
+    const value = e.target.value;
     setSelectedRooms(
       checked
         ? [...selectedRooms, value]
@@ -98,5 +125,3 @@ export const Reserve = ({ setOpen, hotelId }) => {
     </div>
   );
 };
-
-// 2:36:19
